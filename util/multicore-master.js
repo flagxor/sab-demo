@@ -128,8 +128,7 @@ function _Multicore_init(numWorkers, workerScript, readyCallback) {
 	w.postMessage(["start",
 		       _Multicore_mem.buffer,
 		       _Multicore_barrierLoc, _Multicore_funcLoc, _Multicore_sizeLoc, _Multicore_nextLoc, _Multicore_limLoc,
-		       _Multicore_nextArgLoc, _Multicore_argLimLoc],
-		      [_Multicore_mem.buffer]);
+		       _Multicore_nextArgLoc, _Multicore_argLimLoc]);
 	_Multicore_workers.push(w);
     }
 
@@ -326,12 +325,9 @@ function _Multicore_comm(doneCallback, fnIdent, outputMem, indexSpace, args) {
 	M[_Multicore_sizeLoc] = 0;
 	M[_Multicore_nextLoc] = -1000000;
 	// Transmit buffers
-	var xfer = [];
-	for ( var x of newSAB )
-	    xfer.push(x[0]);
 	newSAB.unshift("transfer");
 	for ( var w of _Multicore_workers )
-	    w.postMessage(newSAB, xfer);
+	    w.postMessage(newSAB);
     }
     else {
 	_Multicore_callback = doneCallback;
